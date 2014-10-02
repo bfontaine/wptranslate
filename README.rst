@@ -21,4 +21,12 @@ Usage
 -----
 
 .. code-block::
-    wptranslate [-f <lang>] [-t <lang>] <word>
+    wptranslate [-s <source language>] [-t <target language>] <word>
+
+
+Example
+~~~~~~~
+
+.. code-block::
+    $ wptranslate -s fr -t en jambon
+    Ham
