@@ -15,16 +15,20 @@ It should be used for concepts and vague topics where a typical translator tool
 wouldn’t give an accurate translation, but not for other things. For example,
 you won’t be able to translate a whole sentence with it.
 
+
 Install
 -------
 
 .. code-block::
+
     pip install wptranslate
+
 
 Usage
 -----
 
 .. code-block::
+
     wptranslate [-s <source language>] [-t <target language>] <word>
 
 
@@ -32,5 +36,6 @@ Example
 ~~~~~~~
 
 .. code-block::
+
     $ wptranslate -s fr -t en jambon
     Ham
