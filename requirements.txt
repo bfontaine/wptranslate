@@ -3,4 +3,3 @@ py==1.4.25
 requests==2.3.0
 tox==1.8.0
 virtualenv==1.11.6
-wsgiref==0.1.2
