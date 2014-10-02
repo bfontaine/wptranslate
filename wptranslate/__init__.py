@@ -1,9 +1,9 @@
 #! /usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-__version__ = '0.1.0-alpha'
+__version__ = '0.1.0'
 
-from translator import translate
+from wptranslate.translator import translate
 
 # Silent pyflakes
 translate

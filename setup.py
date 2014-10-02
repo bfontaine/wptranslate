@@ -25,7 +25,7 @@ setup(
     description='Wikipedia-based CLI translator',
     long_description=open('README.rst', 'r').read(),
     install_requires=[
-        'wikipedia >= 1.3.1',
+        'requests >= 2.3.0',
         'argparse >= 1.1',
     ],
     classifiers=[
