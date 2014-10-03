@@ -17,21 +17,6 @@ def get_page_title(text, lang=None):
     return resp['search'][0]['title']
 
 
-def get_page_id(title, lang=None):
-    if not title:
-        return None
-
-    resp = mwquery({
-        'prop': 'info',
-        'titles': title,
-    }, lang=lang)
-
-    if not resp or not resp.get('pages'):
-        return None
-
-    return list(resp['pages'].keys())[0]
-
-
 def translate(text, source, target, **kwargs):
     """
     Translate some ``text`` from a ``source`` language to a ``target`` one
@@ -47,15 +32,14 @@ def translate(text, source, target, **kwargs):
         return None
 
     title  = get_page_title(text, source)
-    pageid = get_page_id(title, source)
 
-    if not pageid:
+    if not title:
         return None
 
     resp = mwquery({
         'prop': 'langlinks',
         'lllang': target,
-        'pageids': pageid
+        'titles': title
     }, lang=source)
 
     if not resp or not resp.get('pages'):
