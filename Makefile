@@ -19,8 +19,6 @@ ifdef TRAVIS_PYTHON_VERSION
 PY_VERSION_SHORT:=$(TRAVIS_PYTHON_VERSION)
 endif
 
-all: run
-
 deps:
 	$(BINPREFIX)pip install -r requirements.txt
 ifeq ($(PY_VERSION_SHORT),2.6)
