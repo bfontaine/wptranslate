@@ -9,7 +9,7 @@ import sys
 from wptranslate import translate
 
 
-def main(verbose=True):
+def main():
     parser = argparse.ArgumentParser(description='Wikipedia-based Translator')
     parser.add_argument('word', type=str, help='word or expression to translate')
     parser.add_argument('-s', '--source', dest='source', type=str,
@@ -26,9 +26,7 @@ def main(verbose=True):
         return sys.exit(1)
 
     if res is None:
-        if verbose:
-            print('No result for "%s" from %s to %s' % (word, source, target))
+        print('No result for "%s" from %s to %s' % (word, source, target))
         return sys.exit(1)
 
-    if verbose:
-        print(res)
+    print(res)

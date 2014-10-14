@@ -1,8 +1,12 @@
 # -*- coding: UTF-8 -*-
 
+import responses
 import sys
 
-import responses
+try:
+    from cStringIO import StringIO
+except ImportError:  # Python 3
+    from io import StringIO
 
 from helpers import TestCase
 
@@ -18,6 +22,7 @@ class TestCli(TestCase):
             self.exit_code = code
         _fake_exit.__name__ = sys.exit.__name__
         sys.exit = _fake_exit
+        self.sys_stdout, self.sys_stderr = sys.stdout, sys.stderr
         self.lang = 'foo'
         self.url = 'https://%s.wikipedia.org/w/api.php' % self.lang
         self.responses = []
@@ -25,12 +30,17 @@ class TestCli(TestCase):
     def tearDown(self):
         sys.argv = self.sys_argv
         sys.exit = self.sys_exit
+        sys.stdout, sys.stderr = self.sys_stdout, self.sys_stderr
 
     def add_resp(self, code, body):
         self.responses.append((code, {}, body))
 
     def mk_resps_callback(self):
         return lambda r: self.responses.pop(0)
+
+    def silent(self):
+        """ remove any output from the rest of the test """
+        sys.stdout, sys.stderr = StringIO(), StringIO()
 
 
     @responses.activate
@@ -41,7 +51,7 @@ class TestCli(TestCase):
         responses.add_callback(method=responses.GET, url=self.url, callback=ctrlC)
         sys.argv = ['wptranslate', '-s', self.lang, '-t', 'en', 'myword']
         self.assertNone(self.exit_code)
-        main(verbose=False)
+        main()
         self.assertEquals(1, self.exit_code)
 
     @responses.activate
@@ -49,7 +59,8 @@ class TestCli(TestCase):
         responses.add(method=responses.GET, url=self.url, body='{}')
         sys.argv = ['wptranslate', '-s', self.lang, '-t', 'en', 'myword']
         self.assertNone(self.exit_code)
-        main(verbose=False)
+        self.silent()
+        main()
         self.assertEquals(1, self.exit_code)
 
     @responses.activate
@@ -65,8 +76,11 @@ class TestCli(TestCase):
         responses.add_callback(responses.GET, self.url, callback=cb)
         sys.argv = ['wptranslate', '-s', self.lang, '-t', 'en', 'myword']
         self.assertNone(self.exit_code)
-        main(verbose=False)
+        self.silent()
+        main()
         self.assertNone(self.exit_code)
         self.assertEquals(2, len(responses.calls))
         self.assertEquals(titlebody, responses.calls[0].response.text)
         self.assertEquals(pagebody, responses.calls[1].response.text)
+        sys.stdout.seek(0)
+        self.assertEquals(word, sys.stdout.read().strip())
