@@ -17,10 +17,13 @@ PY_VERSION_SHORT:=$(PY_VERSION_MAJOR).$(PY_VERSION_MINOR)
 
 ifdef TRAVIS_PYTHON_VERSION
 PY_VERSION_SHORT:=$(TRAVIS_PYTHON_VERSION)
+REQS=travis-reqs.txt
+else
+REQS=requirements.txt
 endif
 
 deps:
-	$(BINPREFIX)pip install -r requirements.txt
+	$(BINPREFIX)pip install -r $(REQS)
 ifeq ($(PY_VERSION_SHORT),2.6)
 	$(BINPREFIX)pip install unittest2
 endif
