@@ -29,7 +29,7 @@ Usage
 
 .. code-block::
 
-    wptranslate [-s <source language>] [-t <target language>] <word>
+    wptranslate <source language>:<target language> <word>
 
 
 Example
@@ -37,5 +37,5 @@ Example
 
 .. code-block::
 
-    $ wptranslate -s fr -t en jambon
+    $ wptranslate fr:en jambon
     Ham
