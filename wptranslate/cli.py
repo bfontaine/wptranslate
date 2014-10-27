@@ -11,14 +11,14 @@ from wptranslate import translate
 
 def main():
     parser = argparse.ArgumentParser(description='Wikipedia-based Translator')
+    parser.add_argument('languages', type=str,
+            help='<source language>:<target language>, e.g.: fr:en')
     parser.add_argument('word', type=str, help='word or expression to translate')
-    parser.add_argument('-s', '--source', dest='source', type=str,
-            help='source language')
-    parser.add_argument('-t', '--target', dest='target', type=str,
-            help='destination language')
+
     args = parser.parse_args()
 
-    word, source, target = args.word, args.source, args.target
+    word = args.word
+    source, target = args.languages.split(':')
 
     try:
         res = translate(word, source=source, target=target)

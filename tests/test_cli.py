@@ -49,7 +49,7 @@ class TestCli(TestCase):
             raise KeyboardInterrupt()
 
         responses.add_callback(method=responses.GET, url=self.url, callback=ctrlC)
-        sys.argv = ['wptranslate', '-s', self.lang, '-t', 'en', 'myword']
+        sys.argv = ['wptranslate', '%s:en' % self.lang, 'myword']
         self.assertNone(self.exit_code)
         main()
         self.assertEquals(1, self.exit_code)
@@ -57,7 +57,7 @@ class TestCli(TestCase):
     @responses.activate
     def test_error_if_no_result(self):
         responses.add(method=responses.GET, url=self.url, body='{}')
-        sys.argv = ['wptranslate', '-s', self.lang, '-t', 'en', 'myword']
+        sys.argv = ['wptranslate', '%s:en' % self.lang, 'myword']
         self.assertNone(self.exit_code)
         self.silent()
         main()
@@ -74,7 +74,7 @@ class TestCli(TestCase):
         self.add_resp(200, pagebody)
         cb = self.mk_resps_callback()
         responses.add_callback(responses.GET, self.url, callback=cb)
-        sys.argv = ['wptranslate', '-s', self.lang, '-t', 'en', 'myword']
+        sys.argv = ['wptranslate', '%s:en' % self.lang, 'myword']
         self.assertNone(self.exit_code)
         self.silent()
         main()
